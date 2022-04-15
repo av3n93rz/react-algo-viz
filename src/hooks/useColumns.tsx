@@ -10,7 +10,10 @@ export type ColumnData = {
   y: number;
   color: Colors;
   value: number;
-}
+  animation?: {
+    position: number;
+  };
+};
 
 type UseColumnsOutput = {
   columnData: ColumnData[];
