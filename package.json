@@ -21,17 +21,22 @@
     "react-scripts": "5.0.0",
     "typescript": "^4.4.2"
   },
+  "devDependencies": {
+    "@codingsans/eslint-config": "^5.2.1",
+    "@ls-lint/ls-lint": "^1.9.2",
+    "eslint": "^7.19.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-i18next": "^5.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.4"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "eslint ."
   },
   "browserslist": {
     "production": [

@@ -1,16 +1,15 @@
-import { useState, useLayoutEffect, MutableRefObject } from "react";
+import type { MutableRefObject } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
-const useDims = (ref: MutableRefObject<SVGTextElement | null>) => {
+export const useDims = (ref: MutableRefObject<SVGTextElement | null>): number => {
   const [dim, setDim] = useState(0);
 
   useLayoutEffect(() => {
-    if (ref && ref.current) {
-			const { width } = ref.current.getBBox();
-			setDim(width);
-    };
+    if (ref?.current) {
+      const { width } = ref.current.getBBox();
+      setDim(width);
+    }
   }, [ref]);
 
   return dim;
 };
-
-export default useDims;

@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 type ChartProps = {
-    comparisonCount: number;
-    swapCount: number;
-    canvas: JSX.Element;
+  comparisonCount: number;
+  swapCount: number;
+  canvas: JSX.Element;
 };
 
 const Chart: FC<ChartProps> = ({ comparisonCount, swapCount, canvas }) => {

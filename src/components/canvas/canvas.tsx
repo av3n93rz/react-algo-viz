@@ -7,11 +7,7 @@ type CanvasProps = {
 };
 
 export const Canvas: FC<CanvasProps> = ({ columns }) => {
-  return (
-    <svg className={"canvas"}>
-      {columns}
-    </svg>
-  );
+  return <svg className={'canvas'}>{columns}</svg>;
 };
 
 export default Canvas;
