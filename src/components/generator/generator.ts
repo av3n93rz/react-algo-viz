@@ -1,67 +1,70 @@
+import { Dispatch, SetStateAction } from "react";
 import { ColumnData } from "../../hooks/useColumns";
 import { Colors } from "../colors";
 
-export type StepState = {
-    result: ColumnData[];
-};
+export type StepState = ColumnData[];
   
 export type SortingGenerator = Generator<StepState, StepState>;
 
-export function* bubbleSort(arr: ColumnData[]): SortingGenerator {
+type BubbleSortInput = {
+  columnData: ColumnData[];
+  setComparisonCount: Dispatch<SetStateAction<number>>
+  setSwapCount: Dispatch<SetStateAction<number>>
+}
+
+export function* bubbleSort({columnData, setComparisonCount, setSwapCount}: BubbleSortInput): SortingGenerator {
   let noswaps = false;
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < columnData.length; i++) {
       noswaps = true;
       let col1;
       let col2;
-      for (let j = 0; j < arr.length - i - 1; j++) {
-        col1 = arr[j];
-        col2 = arr[j+1];
+      for (let j = 0; j < columnData.length - i - 1; j++) {
+        col1 = columnData[j];
+        col2 = columnData[j+1];
         col1.color =  Colors.teal
         col2.color =  Colors.teal
-        yield {
-          result: arr,
-        };
+        yield columnData
+        setComparisonCount(prevCount => prevCount +1)
         if (col1.value > col2.value) {
+          setSwapCount(prevCount => prevCount + 1)
           noswaps = false;
           col1.color =  Colors.orange
-          yield {
-            result: arr,
-          };
-          const a_x = arr[j].x
-          arr[j].x = arr[j+1].x
-          arr[j+1].x = a_x;
-          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-          yield {
-            result: arr,
-          };
+          yield columnData
+
+          columnData[j+1].animation = {position: columnData[j+1].x - columnData[j].x};
+          columnData[j].animation = {position: columnData[j].x - columnData[j+1].x};
+          yield columnData
+
+          columnData[j+1].animation = undefined;
+          columnData[j].animation = undefined;
+          const a_x = columnData[j].x
+          columnData[j].x = columnData[j+1].x
+          columnData[j+1].x = a_x;
+          [columnData[j], columnData[j + 1]] = [columnData[j + 1], columnData[j]];
+          yield columnData
+
           col2.color =  Colors.peach
         } else {
           col2.color =  Colors.orange
           col1.color =  Colors.peach
-          yield {
-            result: arr,
-          };
+          yield columnData
         }
-        yield {
-          result: arr,
-        };
+        yield columnData
       }
-      let lastIdx = arr.length - 1 - i;
-      arr[lastIdx].color =  Colors.red;
-      arr.forEach((col) => {
+      let lastIdx = columnData.length - 1 - i;
+      columnData[lastIdx].color =  Colors.red;
+      columnData.forEach((col) => {
         if(col.color === Colors.orange || col.color === Colors.peach) {
           col.color = Colors.blue
         }
       })
       if(noswaps) {
         while(lastIdx --> 0) {
-            arr[lastIdx].color = Colors.red;
-            yield {
-              result: arr,
-            };
+            columnData[lastIdx].color = Colors.red;
+            yield columnData
         };
         break;
       };
     }
-    return { result: arr };
+    return columnData;
   }

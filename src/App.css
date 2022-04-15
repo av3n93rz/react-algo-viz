@@ -9,3 +9,35 @@
     display: flex;
     justify-content: center;
 }
+
+.settings {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn_container button:not(:first-child){
+    margin-left: 15px;
+}
+
+.btn_container {
+    display: flex;
+    justify-content:center;
+}
+
+.rangeContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto 0 auto;
+    width: 250px;
+}
+
+.counter_container p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+}
+
+.counter_container {
+    margin-bottom: 5px;
+}
