@@ -1,10 +1,8 @@
 import { Grid } from '@mui/material';
-import Button from '@mui/material/Button';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import './App.css';
 import Chart from './components/chart/chart';
 import { bubbleSort } from './components/generator/generator';
-import Range from './components/range/range';
+import Settings from './components/settings/settings';
 import useCanvas from './hooks/useCanvas';
 import useColumns from './hooks/useColumns';
 
@@ -63,25 +61,18 @@ export const App = () => {
       alignItems="center"
       height={'100vh'}
     >
-      <Chart comparisonCount={comparisonCount} swapCount={swapCount} canvas={canvas}/>
-      <div className='settings'>
-        <div>
-          <div className="btn_container">
-            <Button
-              variant="contained"
-              color={ sorting ? "error": "success"}
-              onClick={handleSetSorting}
-              disabled={isSorted}
-              >
-              {sorting ? "Pause": "Start"}
-            </Button>
-            <Button variant="contained" color="warning" onClick={resetApp}>Reset</Button>
-          </div>
-          <div className='rangeContainer'>
-            <Range setSortThrottling={setSortThrottling}/>
-          </div>
-        </div>
-      </div>
+      <Chart
+        comparisonCount={comparisonCount}
+        swapCount={swapCount}
+        canvas={canvas}
+      />
+      <Settings
+        sorting={sorting}
+        isSorted={isSorted}
+        resetApp={resetApp}
+        setSortThrottling={setSortThrottling}
+        handleSetSorting={handleSetSorting}
+      />
     </Grid>
   );
 }

@@ -10,10 +10,8 @@ type ChartProps = {
 const Chart: FC<ChartProps> = ({ comparisonCount, swapCount, canvas }) => {
   return (
     <div>
-      <div className="counter_container">
-        <Typography fontWeight={700}>Comparisons: {comparisonCount}</Typography>
-        <Typography fontWeight={700}>Swaps: {swapCount}</Typography>
-      </div>
+      <Typography fontWeight={700}>Comparisons: {comparisonCount}</Typography>
+      <Typography fontWeight={700}>Swaps: {swapCount}</Typography>
       {canvas}
     </div>
   )

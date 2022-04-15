@@ -1,4 +1,6 @@
-import { Slider, Typography } from '@mui/material'
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import Typography from '@mui/material/Typography';
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
 type RangeInput = {
@@ -19,11 +21,11 @@ const Range: FC<RangeInput> = ({ setSortThrottling }) => {
 
 
   return (
-      <>
-        <Typography id="input-slider" gutterBottom>
-            Sorting speed throttle: {speed}ms
-        </Typography>
-        <Slider
+    <Box mt={3} width={250}>
+      <Typography id="input-slider" gutterBottom>
+        Sorting speed throttle: {speed}ms
+      </Typography>
+      <Slider
         aria-label="ms"
         value={speed}
         onChange={handleSpeedChange}
@@ -32,8 +34,8 @@ const Range: FC<RangeInput> = ({ setSortThrottling }) => {
         step={10}
         min={0}
         max={500}
-        />
-    </>
+      />
+    </Box>
   )
 }
 
