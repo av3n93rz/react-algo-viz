@@ -4,7 +4,7 @@ import Column from '../components/column/column';
 import { StepState } from '../components/generator/generator';
 import { ColumnData } from './useColumns';
 
-type UseCanvasInput = {
+type UseCanvasProps = {
 	columnData: ColumnData[];
 	animationDuration: number;
 };
@@ -14,7 +14,7 @@ type UseCanvasOutput = {
 	setSortingState: React.Dispatch<React.SetStateAction<StepState>>;
 }
 
-export const useColumns = ({columnData, animationDuration}: UseCanvasInput): UseCanvasOutput => {
+export const useColumns = ({columnData, animationDuration}: UseCanvasProps): UseCanvasOutput => {
 
 	const [sortingState, setSortingState] = useState<StepState>(columnData);
 	

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Colors } from '../components/colors';
 
-type UseColumnsInput = number[];
+type UseColumnsProps = number[];
 
 export type ColumnData = {
   columnHeight: number;
@@ -20,7 +20,7 @@ type UseColumnsOutput = {
 	setNumbers: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-export const useColumns = (initState: UseColumnsInput): UseColumnsOutput => {
+export const useColumns = (initState: UseColumnsProps): UseColumnsOutput => {
 
 	const [numbers, setNumbers] = useState(initState);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react';
 import type { FC } from 'react';
 import { ColumnData } from '../../hooks/useColumns';
 import useDims from '../../hooks/useDims';
@@ -10,11 +10,9 @@ export type ColumnProps = {
 };
 
 export const Column: FC<ColumnProps> = ({columnData:{ columnHeight, columnWidth, y, x, color, animation, value}, animationDuration}) => {
-  const [pos, setPos] = useState(0);
-
   const chartRef = React.useRef<SVGTextElement>(null);
-  const textElementwidth = useDims(chartRef)
-
+  const textElementwidth = useDims(chartRef);
+  const [pos, setPos] = useState(0);
 	const position = useMemo(() => `${animation?.position ? x+(pos*(-1)) : x}px, ${y}px`, [y, x, pos, animation]);
 
   useEffect(() => {
@@ -24,14 +22,14 @@ export const Column: FC<ColumnProps> = ({columnData:{ columnHeight, columnWidth,
         draw: progress => setPos(progress),
         duration: animationDuration
       });
-    }
+    };
     return () => {
       setPos(0)
-    }
+    };
   }, [animation, animationDuration]);
 
   return (
-    <g  fill={color} style={{"transform": `translate(${position})`}}>
+    <g fill={color} style={{"transform": `translate(${position})`}}>
       <rect width={columnWidth} height={columnHeight}/>
       <text
         fill='black'
@@ -42,7 +40,7 @@ export const Column: FC<ColumnProps> = ({columnData:{ columnHeight, columnWidth,
         {value}
       </text>
     </g>
-  )
+  );
 };
 
 export default Column;

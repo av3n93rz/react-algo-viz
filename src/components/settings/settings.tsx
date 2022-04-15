@@ -1,7 +1,7 @@
 
-import Button from '@mui/material/Button'
-import Range from '../range/range'
-import React from 'react'
+import Button from '@mui/material/Button';
+import Range from '../range/range';
+import React, { FC } from 'react';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
 import Grid from '@mui/material/Grid';
@@ -13,9 +13,9 @@ type SettingsProps = {
   resetApp: () => void;
   setSortThrottling: Dispatch<SetStateAction<number>>;
   handleSetSorting: () => void;
-}
+};
 
-const Settings = ({ sorting, isSorted, resetApp, setSortThrottling, handleSetSorting }: SettingsProps) => {
+const Settings: FC<SettingsProps> = ({ sorting, isSorted, resetApp, setSortThrottling, handleSetSorting }) => {
   return (
     <Box mt={5}>
       <Grid
@@ -47,7 +47,7 @@ const Settings = ({ sorting, isSorted, resetApp, setSortThrottling, handleSetSor
         <Range setSortThrottling={setSortThrottling}/>
       </Grid>
     </Box>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;
