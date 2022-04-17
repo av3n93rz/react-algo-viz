@@ -1,4 +1,3 @@
-import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { useMemo, useState } from 'react';
 import Colors from '../components/colors';

@@ -15,9 +15,15 @@ export type Count = {
 
 type Reducer = (state: Count, action: keyof Count | 'reset') => Count;
 
+export type Algorithms = 'bubbleSort' | 'patienceSort';
+
 export const App: FC = () => {
   const [sorting, setSorting] = useState(false);
   const [isSorted, setIsSorted] = useState(false);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<Algorithms>('patienceSort');
+  const [sortThrottling, setSortThrottling] = useState(100);
+  const { columnData, setNumbers } = useColumns([3, 6, 13, 5, 1, 2, 14, 15, 12, 8, 9, 4, 7, 10, 11]);
+  const { canvas, setSortingState } = useCanvas({ columnData, animationDuration: sortThrottling / 2 });
   const [count, setCount] = useReducer<Reducer>(
     (state, action) => {
       if (action === 'reset') {
@@ -33,13 +39,6 @@ export const App: FC = () => {
       swaps: 0,
     },
   );
-
-  const [selectedAlgorithm, _setSelectedAlgorithm] = useState('patienceSort');
-
-  const [sortThrottling, setSortThrottling] = useState(100);
-  const { columnData, setNumbers } = useColumns([3, 6, 13, 5, 1, 2, 14, 15, 12, 8, 9, 4, 7, 10, 11]);
-
-  const { canvas, setSortingState } = useCanvas({ columnData, animationDuration: sortThrottling / 2 });
 
   const generator = useMemo(() => {
     switch (selectedAlgorithm) {
@@ -73,6 +72,10 @@ export const App: FC = () => {
   }, [setNumbers]);
 
   useEffect(() => {
+    resetApp();
+  }, [selectedAlgorithm]);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       if (sorting) {
         sort();
@@ -92,6 +95,8 @@ export const App: FC = () => {
         resetApp={resetApp}
         setSortThrottling={setSortThrottling}
         handleSetSorting={handleSetSorting}
+        selectedAlgorithm={selectedAlgorithm}
+        setSelectedAlgorithm={setSelectedAlgorithm}
       />
     </Grid>
   );
