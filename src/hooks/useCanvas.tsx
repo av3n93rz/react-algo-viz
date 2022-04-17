@@ -1,7 +1,8 @@
+import type { Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useMemo, useState } from 'react';
+import type { StepState } from '../algorithms/types';
 import { Canvas } from '../components/canvas/canvas';
 import { Column } from '../components/column/column';
-import type { StepState } from '../components/generator/generator';
 import type { ColumnData } from './useColumns';
 
 type UseCanvasProps = {
@@ -11,7 +12,7 @@ type UseCanvasProps = {
 
 type UseCanvasOutput = {
   canvas: JSX.Element;
-  setSortingState: React.Dispatch<React.SetStateAction<StepState>>;
+  setSortingState: Dispatch<SetStateAction<StepState>>;
 };
 
 export const useCanvas = ({ columnData, animationDuration }: UseCanvasProps): UseCanvasOutput => {

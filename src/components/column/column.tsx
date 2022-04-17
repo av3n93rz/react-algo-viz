@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FC } from 'react';
 import type { ColumnData } from '../../hooks/useColumns';
 import { useDims } from '../../hooks/useDims';
@@ -13,7 +13,7 @@ export const Column: FC<ColumnProps> = ({
   columnData: { columnHeight, columnWidth, y, x, color, animation, value },
   animationDuration,
 }) => {
-  const chartRef = React.useRef<SVGTextElement>(null);
+  const chartRef = useRef<SVGTextElement>(null);
   const textElementwidth = useDims(chartRef);
   const [pos, setPos] = useState(0);
   const position = useMemo(() => `${animation?.position ? x + pos * -1 : x}px, ${y}px`, [y, x, pos, animation]);

@@ -4,16 +4,18 @@ import type { FC } from 'react';
 import React from 'react';
 
 type ChartProps = {
-  comparisonCount: number;
-  swapCount: number;
+  count: {
+    comparisons: number;
+    swaps: number;
+  };
   canvas: JSX.Element;
 };
 
-const Chart: FC<ChartProps> = ({ comparisonCount, swapCount, canvas }) => {
+const Chart: FC<ChartProps> = ({ count, canvas }) => {
   return (
     <Box>
-      <Typography fontWeight={700}>Comparisons: {comparisonCount}</Typography>
-      <Typography fontWeight={700}>Swaps: {swapCount}</Typography>
+      <Typography fontWeight={700}>Comparisons: {count.comparisons}</Typography>
+      <Typography fontWeight={700}>Swaps: {count.swaps}</Typography>
       {canvas}
     </Box>
   );

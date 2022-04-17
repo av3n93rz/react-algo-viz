@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
-import type { FC } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
 
 type RangeProps = {
-  setSortThrottling: React.Dispatch<React.SetStateAction<number>>;
+  setSortThrottling: Dispatch<SetStateAction<number>>;
 };
 
 const Range: FC<RangeProps> = ({ setSortThrottling }) => {
