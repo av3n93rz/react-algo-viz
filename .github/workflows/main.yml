@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  PROJECT_NAME: "react-algo-viz"
+  LOCAL_DIRECTORY: "build"
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    outputs:
+      NODE_VERSION: ${{steps.engines.outputs.NODE_VERSION}}
+      CACHE_KEY: ${{steps.engines.outputs.CACHE_KEY}}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node version
+        id: engines
+        run: |
+          echo "::set-output name=NODE_VERSION::$(jq -r '.engines.node' package.json)"
+
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - init
+    strategy:
+      matrix:
+        scripts: ["lint", "build"]
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ needs.init.outputs.NODE_VERSION }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache 
+            ~/.cache 
+            !~/cache/exclude 
+            !~/.cache/exclude 
+            ~/.npm
+          key: ${{ runner.os }}-build-${{ needs.init.outputs.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ needs.init.outputs.NODE_VERSION }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [init, tests]
+    if: (needs.init.result == 'success' && needs.tests.result == 'success')
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ needs.init.outputs.NODE_VERSION }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache 
+            ~/.cache 
+            !~/cache/exclude 
+            !~/.cache/exclude 
+            ~/.npm
+          key: ${{ runner.os }}-build-${{ needs.init.outputs.NODE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ needs.init.outputs.NODE_VERSION }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      
+      - name: Install Packages
+        run: |
+          npm ci
+
+      - name: build
+        run: npm run build
+      
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: build
