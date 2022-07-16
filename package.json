@@ -2,6 +2,7 @@
   "name": "react-algo-viz",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/react-algo-viz/",
   "engines": {
     "node": ">=16.0.0"
   },
