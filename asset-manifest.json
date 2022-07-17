@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/react-algo-viz/static/css/main.a08c81d6.css",
-    "main.js": "/react-algo-viz/static/js/main.287cb096.js",
+    "main.js": "/react-algo-viz/static/js/main.a3d93143.js",
     "index.html": "/react-algo-viz/index.html",
     "main.a08c81d6.css.map": "/react-algo-viz/static/css/main.a08c81d6.css.map",
-    "main.287cb096.js.map": "/react-algo-viz/static/js/main.287cb096.js.map"
+    "main.a3d93143.js.map": "/react-algo-viz/static/js/main.a3d93143.js.map"
   },
   "entrypoints": [
     "static/css/main.a08c81d6.css",
-    "static/js/main.287cb096.js"
+    "static/js/main.a3d93143.js"
   ]
 }
