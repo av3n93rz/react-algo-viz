@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 type RangeProps = {
   setSortThrottling: Dispatch<SetStateAction<number>>;
@@ -12,11 +12,8 @@ const Range: FC<RangeProps> = ({ setSortThrottling }) => {
   const [speed, setSpeed] = useState(200);
   const handleSpeedChange = useCallback((_event: Event, speed: number | number[]) => {
     setSpeed(speed as number);
+    setSortThrottling(speed as number);
   }, []);
-
-  useEffect(() => {
-    setSortThrottling(speed);
-  }, [setSortThrottling, speed]);
 
   return (
     <Box mt={3} width={250}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { FC } from 'react';
-import type { ColumnData } from '../../hooks/useColumns';
+import type { ColumnData } from '../../hooks/useCanvas';
 import { useDims } from '../../hooks/useDims';
 import animate from './animate';
 

@@ -1,5 +1,6 @@
 import Colors from '../components/colors';
-import type { SortingGenerator, SortParams } from './types';
+import { Counters } from '../types';
+import type { SortingGenerator, SortParams } from '../types';
 
 export function* bubbleSort({ columnData, setCount }: SortParams): SortingGenerator {
   let noswaps = false;
@@ -11,13 +12,13 @@ export function* bubbleSort({ columnData, setCount }: SortParams): SortingGenera
       col1.color = Colors.TEAL;
       col2.color = Colors.TEAL;
       yield columnData;
-      setCount('comparisons');
+      setCount(Counters.COMPARISON);
       if (col1.value > col2.value) {
         noswaps = false;
         col1.color = Colors.ORANGE;
         yield columnData;
 
-        setCount('swaps');
+        setCount(Counters.SWAP);
         col2.animation = { position: col2.x - col1.x };
         col1.animation = { position: col1.x - col2.x };
         yield columnData;

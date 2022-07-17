@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Range from '../range/range';
-import type { Algorithms } from '../../App';
+import { Algorithms } from '../../types';
 
 type SettingsProps = {
   sorting: boolean;
@@ -32,6 +32,7 @@ const Settings: FC<SettingsProps> = ({
 }) => {
   const handleSelect = useCallback((e: SelectChangeEvent<Algorithms>) => {
     setSelectedAlgorithm(e.target.value as Algorithms);
+    resetApp();
   }, []);
 
   return (
@@ -63,8 +64,8 @@ const Settings: FC<SettingsProps> = ({
           <FormControl fullWidth>
             <InputLabel id="select-label">Algorithm</InputLabel>
             <Select labelId="select-label" value={selectedAlgorithm} label="Algorithm" onChange={handleSelect}>
-              <MenuItem value={'bubbleSort'}>Bubble Sort</MenuItem>
-              <MenuItem value={'patienceSort'}>Patience Sort</MenuItem>
+              <MenuItem value={Algorithms.BUBBLE}>Bubble Sort</MenuItem>
+              <MenuItem value={Algorithms.PATIENCE}>Patience Sort</MenuItem>
             </Select>
           </FormControl>
         </Box>

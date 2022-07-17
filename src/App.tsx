@@ -1,94 +1,50 @@
-import { Grid } from '@mui/material';
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import { Box, Grid } from '@mui/material';
+import { useCallback, useMemo, useState } from 'react';
 import type { FC } from 'react';
-import Chart from './components/chart/chart';
 import { bubbleSort } from './algorithms/bubbleSort';
 import { patienceSort } from './algorithms/patienceSort';
 import Settings from './components/settings/settings';
 import { useCanvas } from './hooks/useCanvas';
-import { useColumns } from './hooks/useColumns';
-
-export type Count = {
-  comparisons: number;
-  swaps: number;
-};
-
-type Reducer = (state: Count, action: keyof Count | 'reset') => Count;
-
-export type Algorithms = 'bubbleSort' | 'patienceSort';
+import { Algorithms } from './types';
+import { useCounters } from './hooks/useCounters';
+import { useSorting } from './hooks/useSorting';
 
 export const App: FC = () => {
-  const [sorting, setSorting] = useState(false);
-  const [isSorted, setIsSorted] = useState(false);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<Algorithms>('patienceSort');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<Algorithms>(Algorithms.PATIENCE);
   const [sortThrottling, setSortThrottling] = useState(100);
-  const { columnData, setNumbers } = useColumns([3, 6, 13, 5, 1, 2, 14, 15, 12, 8, 9, 4, 7, 10, 11]);
-  const { canvas, setSortingState } = useCanvas({ columnData, animationDuration: sortThrottling / 2 });
-  const [count, setCount] = useReducer<Reducer>(
-    (state, action) => {
-      if (action === 'reset') {
-        return {
-          comparisons: 0,
-          swaps: 0,
-        };
-      }
-      return { ...state, [`${action}`]: state[`${action}`] + 1 };
-    },
-    {
-      comparisons: 0,
-      swaps: 0,
-    },
-  );
+  const { Counters, setCount } = useCounters();
+
+  const { canvas, setSortingState, columnData, resetCanvas } = useCanvas({
+    animationDuration: sortThrottling / 2,
+  });
 
   const generator = useMemo(() => {
     switch (selectedAlgorithm) {
-      case 'patienceSort':
+      case Algorithms.PATIENCE:
         return patienceSort({ columnData, setCount });
-      default:
+      case Algorithms.BUBBLE:
         return bubbleSort({ columnData, setCount });
     }
   }, [columnData, selectedAlgorithm]);
 
-  const sort = useCallback(() => {
-    const { done, value } = generator.next();
-    if (done) {
-      setSorting(false);
-      setIsSorted(true);
-    }
-    setSortingState([...value]);
-  }, [generator, setSortingState, setSorting]);
-
-  const handleSetSorting = useCallback(() => {
-    if (!isSorted) {
-      setSorting((prevState) => !prevState);
-    }
-  }, [isSorted]);
+  const { handleSetSorting, resetSorting, sorting, isSorted } = useSorting({
+    generator,
+    setSortingState,
+    sortThrottling,
+  });
 
   const resetApp = useCallback(() => {
-    setSorting(false);
-    setIsSorted(false);
+    resetSorting();
     setCount('reset');
-    setNumbers([3, 6, 13, 5, 1, 2, 14, 15, 12, 8, 9, 4, 7, 10, 11]);
-  }, [setNumbers]);
-
-  useEffect(() => {
-    resetApp();
-  }, [selectedAlgorithm]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (sorting) {
-        sort();
-      } else {
-        clearInterval(intervalId);
-      }
-    }, sortThrottling);
-    return () => clearInterval(intervalId);
-  }, [sort, sorting, sortThrottling]);
+    resetCanvas();
+  }, []);
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" height={'100vh'}>
-      <Chart count={count} canvas={canvas} />
+      <Box>
+        {Counters}
+        {canvas}
+      </Box>
       <Settings
         sorting={sorting}
         isSorted={isSorted}

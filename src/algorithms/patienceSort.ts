@@ -1,6 +1,7 @@
-import type { ColumnData } from '../hooks/useColumns';
+import type { ColumnData } from '../hooks/useCanvas';
 import Colors from '../components/colors';
-import type { SortingGenerator, SortParams } from './types';
+import { Counters } from '../types';
+import type { SortingGenerator, SortParams } from '../types';
 
 export function* patienceSort({ columnData, setCount }: SortParams): SortingGenerator {
   const piles: ColumnData[][] = [];
@@ -9,7 +10,7 @@ export function* patienceSort({ columnData, setCount }: SortParams): SortingGene
     col.color = Colors.TEAL;
     yield columnData;
     col.color = Colors.PEACH;
-    setCount('comparisons');
+    setCount(Counters.COMPARISON);
     const destinationPile = piles.find((pile) => pile[pile.length - 1].value <= col.value);
     if (destinationPile) {
       destinationPile.push(col);
@@ -24,7 +25,7 @@ export function* patienceSort({ columnData, setCount }: SortParams): SortingGene
   for (let i = 0; i < columnData.length; i++) {
     let sourcePileIndex = 0;
     for (let p = 1; p < piles.length; p++) {
-      setCount('comparisons');
+      setCount(Counters.COMPARISON);
       if (piles[p][0].value < piles[sourcePileIndex][0].value) {
         sourcePileIndex = p;
       }
@@ -44,7 +45,7 @@ export function* patienceSort({ columnData, setCount }: SortParams): SortingGene
     if (columnData[Idx].value !== tmpCol.value) {
       const originalIndex = columnData.findIndex((col, index) => index > Idx && col.value === tmpCol.value);
       if (originalIndex >= 0) {
-        setCount('swaps');
+        setCount(Counters.SWAP);
         const col1 = columnData[originalIndex];
         const col2 = columnData[Idx];
         col1.animation = { position: col1.x - col2.x };
